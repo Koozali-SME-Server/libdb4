@@ -1,4 +1,4 @@
-NAME := libdb4-utils
+NAME := libdb4
 SPECFILE = $(firstword $(wildcard *.spec))
 
 define find-makefile-common
