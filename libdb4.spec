@@ -72,6 +72,7 @@ Provides: db4-devel = %{version}
 This package contains the header files and libraries for building C
 programs which use the Berkeley DB.
 
+%ifarch x86_64
 %package doc
 Summary: Documentation for the Berkeley DB
 BuildArch: noarch
@@ -86,6 +87,7 @@ Summary: Berkeley DB (version 4) static libraries
 Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 Obsoletes: db4-devel-static < 5.0.0
 Provides: db4-devel-static = %{version}
+%endif
 
 %description devel-static
 This package contains static libraries needed for applications that
@@ -328,9 +330,11 @@ chrpath -d ${RPM_BUILD_ROOT}%{_libdir}/*.so ${RPM_BUILD_ROOT}%{_bindir}/*
 %{_includedir}/%{name}/db.h
 %{_includedir}/%{name}/db_185.h
 
+%ifarch x86_64
 %files doc
 %doc docs/*
 %doc examples_c examples_cxx examples_java
+%endif
 
 %files devel-static
 %{_libdir}/libdb-%{__soversion}.a
