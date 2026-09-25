@@ -81,13 +81,13 @@ Provides: db4-devel-doc = %{version}
 
 %description doc
 This package includes documentation files for the Berkeley DB database.
+%endif
 
 %package devel-static
 Summary: Berkeley DB (version 4) static libraries
 Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 Obsoletes: db4-devel-static < 5.0.0
 Provides: db4-devel-static = %{version}
-%endif
 
 %description devel-static
 This package contains static libraries needed for applications that
