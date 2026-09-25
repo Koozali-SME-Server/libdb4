@@ -4,7 +4,7 @@
 Summary: The Berkeley DB database library (version 4) for C
 Name: libdb4
 Version: 4.8.30
-Release: 30%{?dist}
+Release: 31%{?dist}
 URL: http://www.oracle.com/database/berkeley-db/
 License: Sleepycat and BSD
 
@@ -26,6 +26,9 @@ Patch26: db-4.8.30-atomic_compare_exchange.patch
 BuildRequires: gcc gcc-c++
 # downstream patch to hotfix rhbz#1464032
 Patch27: db-4.8.30-cwd-db_config.patch
+# Koozali java patch
+Patch28: db-4.8.30-javaversion.patch
+
 BuildRequires: chrpath
 BuildRequires: ed
 BuildRequires: java-devel >= 1:1.6.0
@@ -168,6 +171,7 @@ popd
 %patch25 -p1 -b .memp_stat
 %patch26 -p1 -b .atomic_cmpx
 %patch27 -p2 -b .cwd-db_config
+%patch28 -p1 
 
 # Fix HREF references in the docs which would otherwise break when we split the docs up into subpackages.
 set +x
@@ -203,6 +207,8 @@ cd dist
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+#libdb4 is incompatible with modern java
+export JAVACFLAGS="-source 1.8 -target 1.8"
 
 # Build the old db-185 libraries.
 make -C db.1.85/PORT/%{_os} OORG="$CFLAGS"
@@ -370,6 +376,9 @@ chrpath -d ${RPM_BUILD_ROOT}%{_libdir}/*.so ${RPM_BUILD_ROOT}%{_bindir}/*
 %{_libdir}/%{name}/libdb_java.so
 
 %changelog
+* Fri Sep 25 2026 Jean-Philippe Pialasse <jpp@koozali.org> 4.8.30-31.sme
+- fix java version detection for el9
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.30-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
